@@ -1,0 +1,6 @@
+This firmware is written for the board at
+  http://www.ladyada.net/make/conway/
+kit available from:
+  http://www.adafruit.com/index.php?main_page=index&cPath=24
+
+A Makefile is included, but you can run the few commands yourself potentially
