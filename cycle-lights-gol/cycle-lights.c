@@ -4,11 +4,11 @@
 
 static const uint8_t BUTTON_PIN = 5;
 
-static inline void turn_on_led(uint8_t *port, uint8_t pin) {
+static inline void turn_on_led(volatile uint8_t *port, uint8_t pin) {
   *port |= _BV(pin);
 }
 
-static inline void turn_off_led(uint8_t *port, uint8_t pin) {
+static inline void turn_off_led(volatile uint8_t *port, uint8_t pin) {
   *port &= ~(_BV(pin));
 }
 
