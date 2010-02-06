@@ -19,7 +19,8 @@ AVRDUDE_BASE_CMD = $(AVRDUDE) -c $(PROGRAMMER) -P $(PROGRAMMER_PORT) \
 
 OBJCOPY	= avr-objcopy
 
-all: fuse flash
+# note that we try to compile for doing anything with the chip
+all: $(OUT_BASE_NAME).bin fuse flash
 
 help:
 	@echo fuse	write fuses
