@@ -29,8 +29,15 @@ static const led_pair_t
   };
 static const uint8_t NUM_LEDS = 27;
 
+#define POWER_DDR DDRB
+#define POWER_PORT PORTB
 #define POWER_PIN PINB
 static const uint8_t POWER_BIT = 2;
+
+#define MODE_DDR DDRA
+#define MODE_PORT PORTA
+#define MODE_PIN PINA
+static const uint8_t MODE_BIT = 6;
 
 static const uint8_t ALL_INPUT = 0, ALL_OUTPUT = ~0,
   ALL_POS_PULL_ON = ~0, ALL_GND_PULL_OFF = 0;
