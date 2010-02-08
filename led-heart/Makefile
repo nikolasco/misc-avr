@@ -1,4 +1,4 @@
-SOURCE_FILES	= shine-all.c
+SOURCE_FILES	= animate-basic.c
 
 TARGET_ARCH	= attiny44 # for GCC
 CLOCK_SPEED	= 1000000UL # 1MHz
