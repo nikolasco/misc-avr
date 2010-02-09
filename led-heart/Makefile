@@ -11,7 +11,7 @@ PROGRAMMER_PORT	= usb
 OUT_BASE_NAME	= main
 
 CC		= avr-gcc
-CFLAGS		= -Os -Wall -I. -std=gnu99 -mmcu=$(TARGET_ARCH) -DF_CPU=$(CLOCK_SPEED)
+CFLAGS		= -Os -g -Wall -I. -std=gnu99 -mmcu=$(TARGET_ARCH) -DF_CPU=$(CLOCK_SPEED)
 
 AVRDUDE		= avrdude
 AVRDUDE_BASE_CMD = $(AVRDUDE) -c $(PROGRAMMER) -P $(PROGRAMMER_PORT) \
