@@ -39,25 +39,6 @@ static const uint8_t POWER_BIT = 2;
 #define MODE_PIN PINA
 static const uint8_t MODE_BIT = 6;
 
-#define DEBOUNCE_COUNTER TCNT0
-#define DEBOUNCE_CONTROL TCCR0B
-
-static const uint8_t DEBOUNCE_DELAY = 200;
-
-static inline void start_debounce() {
-  DEBOUNCE_COUNTER = 0;
-  DEBOUNCE_CONTROL = _BV(CS02) | _BV(CS00);
-}
-
-static inline uint8_t debounce_passed() {
-  if (DEBOUNCE_COUNTER <= DEBOUNCE_DELAY) return 0;
-
-  DEBOUNCE_CONTROL = 0;
-  DEBOUNCE_COUNTER = 0;
-
-  return 1;
-}
-
 static const uint8_t ALL_INPUT = 0, ALL_OUTPUT = ~0,
   ALL_POS_PULL_ON = ~0, ALL_GND_PULL_OFF = 0;
 
