@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "heart.h"
 
@@ -6,10 +7,10 @@
 // also note that the maximum duration one frame = (2^16 - 1) * 1000000/1024
 // or about 1min
 
-typedef struct {uint8_t leds[27]; uint16_t dur;} anim_frame;
-typedef struct {uint16_t num_frames; anim_frame frames[];} anim;
+typedef struct {const uint8_t leds[27]; const uint16_t dur;} anim_frame;
+typedef struct {const uint16_t num_frames; const anim_frame frames[];} anim;
 
-static const anim ON_OFF_ANIM =
+static const PROGMEM anim ON_OFF_ANIM =
   {2, {
     {{
            255, 255,      255, 255,
@@ -28,8 +29,8 @@ static const anim ON_OFF_ANIM =
                        0
       }, 900},
   }};
-static const anim UP_DOWN_ANIM =
-  {3, {
+static const PROGMEM anim UP_DOWN_ANIM =
+  {13, {
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -54,9 +55,6 @@ static const anim UP_DOWN_ANIM =
                 255, 255, 255,
                      255
       }, 325},
-    // including the rest of the frames overflows SRAM
-    // TODO: move into flash
-    /*
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -137,7 +135,6 @@ static const anim UP_DOWN_ANIM =
                   0,   0,   0,
                        0
       }, 325},
-    */
   }};
 static const uint8_t NUM_ANIMATIONS = 2;
 static const anim *ANIMATIONS[] = {&UP_DOWN_ANIM, &ON_OFF_ANIM};
@@ -154,12 +151,16 @@ int main() {
   while (1) {
     for (uint8_t n = 0; n < NUM_ANIMATIONS; n++) {
       uint8_t next_animation = 0;
+      uint16_t frame_count = 0;
+      memcpy_P(&frame_count, &ANIMATIONS[n]->num_frames, sizeof(frame_count));
       while (1) {
-        for (uint16_t f = 0; f < ANIMATIONS[n]->num_frames; f++) {
-          for (TCNT1 = 0; TCNT1 < ANIMATIONS[n]->frames[f].dur; /*nothing*/) {
+        for (uint16_t f = 0; f < frame_count; f++) {
+          anim_frame cur_frame;
+          memcpy_P(&cur_frame, &ANIMATIONS[n]->frames[f], sizeof(cur_frame));
+          for (TCNT1 = 0; TCNT1 < cur_frame.dur; /*nothing*/) {
             for (uint8_t i = 0; i < 27; i++) {
               uint8_t tmp_port = ALL_GND_PULL_OFF, tmp_ddr = ALL_INPUT;
-              if (ANIMATIONS[n]->frames[f].leds[i]) {
+              if (cur_frame.leds[i]) {
                 turn_led_on(&tmp_ddr, &tmp_port, i);
               }
               DDRA = tmp_ddr;
