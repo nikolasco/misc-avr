@@ -10,6 +10,9 @@
 typedef struct {const uint8_t leds[27]; const uint16_t dur;} anim_frame;
 typedef struct {const uint16_t num_frames; const anim_frame frames[];} anim;
 
+// Note: when adding new animations, remember to add them to the ANIMATIONS
+// array below
+
 static const PROGMEM anim ON_OFF_ANIM =
   {2, {
     {{
@@ -136,8 +139,11 @@ static const PROGMEM anim UP_DOWN_ANIM =
                        0
       }, 325},
   }};
-static const uint8_t NUM_ANIMATIONS = 2;
+
 static const anim *ANIMATIONS[] = {&UP_DOWN_ANIM, &ON_OFF_ANIM};
+
+// determine number of animations automatically
+static const uint8_t NUM_ANIMATIONS = sizeof(ANIMATIONS)/sizeof(ANIMATIONS[0]);
 
 int main() {
   DDRA = ALL_INPUT;
