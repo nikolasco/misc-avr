@@ -1,5 +1,5 @@
-# this script generates the lookup table that maps between 8-bit lightness
-# and 16-bit luminance
+# this script generates the lookup table that maps between lightness
+# and luminance
 
 # this function is Pauli's generalization of the 1976 CIELAB lightness function
 # (scaled to output 0-1 instead of 0-100)
@@ -18,8 +18,9 @@ def value(l)
 end
 
 IN_UPPER_LIM = 2**8 - 1
-OUT_UPPER_LIM = 2**16 - 1
+OUT_UPPER_LIM = 2**9 - 1
 puts 0.upto(IN_UPPER_LIM).map{ |l|
   l *= 1.0/IN_UPPER_LIM;
   (value(l)*OUT_UPPER_LIM).round
 }.join(', ')
+

@@ -3,9 +3,9 @@
 #include <util/delay.h>
 #include "heart.h"
 
-// note that one second = F_CPU/1024 (currently 1000000/1024)
-// also note that the maximum duration one frame = (2^16 - 1) * 1000000/1024
-// or about 1min
+// note that one second = 1024/F_CPU (currently 1024/8000000)
+// also note that the maximum duration one frame = (2^16 - 1) * 1024/8000000
+// or about 8s
 
 typedef struct {const uint8_t leds[27]; const uint16_t dur;} anim_frame;
 typedef struct {const uint16_t num_frames; const anim_frame frames[];} anim;
@@ -22,7 +22,7 @@ static const PROGMEM anim ON_OFF_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 900},
+      }, 7200},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -30,7 +30,7 @@ static const PROGMEM anim ON_OFF_ANIM =
              0,   0,   0,   0,   0, 
                   0,   0,   0,
                        0
-      }, 900},
+      }, 7200},
   }};
 static const PROGMEM anim UP_DOWN_ANIM =
   {13, {
@@ -41,7 +41,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
              0,   0,   0,   0,   0, 
                   0,   0,   0,
                        0
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -49,7 +49,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
              0,   0,   0,   0,   0, 
                   0,   0,   0,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -57,7 +57,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
              0,   0,   0,   0,   0, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -65,7 +65,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -73,7 +73,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
       255, 255, 255, 255, 255, 255, 255,
@@ -81,7 +81,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
            255, 255,      255, 255,
       255, 255, 255, 255, 255, 255, 255,
@@ -89,7 +89,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 651},
+      }, 5200},
     {{
              0,   0,        0,   0,
       255, 255, 255, 255, 255, 255, 255,
@@ -97,7 +97,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -105,7 +105,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -113,7 +113,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
            255, 255, 255, 255, 255, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -121,7 +121,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
              0,   0,   0,   0,   0, 
                 255, 255, 255,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -129,7 +129,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
              0,   0,   0,   0,   0, 
                   0,   0,   0,
                      255
-      }, 325},
+      }, 2600},
     {{
              0,   0,        0,   0,
         0,   0,   0,   0,   0,   0,   0,
@@ -137,7 +137,7 @@ static const PROGMEM anim UP_DOWN_ANIM =
              0,   0,   0,   0,   0, 
                   0,   0,   0,
                        0
-      }, 325},
+      }, 2600},
   }};
 
 static const anim *ANIMATIONS[] = {&UP_DOWN_ANIM, &ON_OFF_ANIM};

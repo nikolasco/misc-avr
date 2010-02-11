@@ -1,7 +1,7 @@
-SOURCE_FILES	= animate-basic.c
+SOURCE_FILES	= pulse-all.c heart.h
 
 TARGET_ARCH	= attiny44 # for GCC
-CLOCK_SPEED	= 1000000UL # 1MHz
+CLOCK_SPEED	= 8000000UL # 8MHz
 
 PART_NO		= t44 # for avrdude
 
@@ -27,7 +27,7 @@ help:
 	@echo flash	install code into flash memory
 
 fuse:
-	$(AVRDUDE_BASE_CMD) -B 10 -U lfuse:w:0x62:m -U  hfuse:w:0xdf:m
+	$(AVRDUDE_BASE_CMD) -B 10 -U lfuse:w:0xe2:m -U  hfuse:w:0xdf:m
 
 flash: $(OUT_BASE_NAME).bin
 	$(AVRDUDE_BASE_CMD) -B 10 -U flash:w:$(OUT_BASE_NAME).bin:r
