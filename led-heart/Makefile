@@ -1,4 +1,6 @@
-SOURCE_FILES	= pulse-all.c heart.h
+SOURCE_FILES	= heart.h general-avr.h
+SOURCE_FILES	+= dimming.h
+SOURCE_FILES	+= pulse-all.c
 
 TARGET_ARCH	= attiny44 # for GCC
 CLOCK_SPEED	= 8000000UL # 8MHz
@@ -21,6 +23,15 @@ OBJCOPY	= avr-objcopy
 
 # note that we try to compile for doing anything with the chip
 all: $(OUT_BASE_NAME).bin fuse flash
+
+# some project-specific dependency info
+heart.h: general-avr.h
+
+pulse-all.c:
+
+animate-basic.c: heart.h
+
+shine-all.c: heart.h
 
 help:
 	@echo fuse	write fuses

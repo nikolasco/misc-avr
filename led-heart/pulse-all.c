@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include "heart.h"
+#include "dimming.h"
 
 int main() {
   DDRB = ALL_INPUT;
