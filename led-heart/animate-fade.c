@@ -1,5 +1,7 @@
+#include <avr/interrupt.h>
 #include <avr/io.h>
 #include <avr/pgmspace.h>
+#include <avr/sleep.h>
 #include <string.h>
 #include <util/delay.h>
 #include "heart.h"
@@ -368,12 +370,21 @@ static const PROGMEM anim THUMP_THUMP_ANIM =
   }};
 
 static const anim *ANIMATIONS[] = {
-  &ON_ANIM, &THUMP_THUMP_ANIM, &UP_DOWN_ANIM, &PULSE_ANIM, &HEAL_ANIM, &BREAK_ANIM};
+  &ON_ANIM, &THUMP_THUMP_ANIM, &UP_DOWN_ANIM, &PULSE_ANIM, &HEAL_ANIM,
+  &BREAK_ANIM};
 
 // determine number of animations automatically
 static const uint8_t NUM_ANIMATIONS = sizeof(ANIMATIONS)/sizeof(ANIMATIONS[0]);
 
-uint8_t next_animation = 0;
+volatile uint8_t go_to_sleep = 0;
+ISR(PCINT1_vect) {
+  go_to_sleep = 1;
+}
+
+volatile uint8_t next_animation = 0;
+ISR(PCINT0_vect) {
+  next_animation = 1;
+}
 
 static void shine_leds(uint16_t dur, uint8_t cur_vals[]) {
   for (TCNT1 = 0; TCNT1 < dur; /*nothing*/) {
@@ -391,15 +402,25 @@ static void shine_leds(uint16_t dur, uint8_t cur_vals[]) {
       DDRB = ALL_INPUT;
       PORTB = ALL_POS_PULL_ON;
 
-      // TODO: make sure the button comes up
-      // to make this less time-dependant
-      if (bit_is_clear(MODE_PIN, MODE_BIT)) {
-        next_animation = 1;
+      if (go_to_sleep) {
+        _delay_ms(2000);
+
+        cli();
+        set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+        sleep_enable();
+        // don't wake up via mode button
+        GIMSK &=  ~_BV(PCIE0);
+        sei();
+
+        sleep_cpu();
+
+        sleep_disable();
+        GIMSK |=  _BV(PCIE0);
         _delay_ms(1000);
-        break;
+        go_to_sleep = 0;
       }
-      
-      if (TCNT1 > dur) break;
+
+      if (next_animation || TCNT1 > dur) break;
     }
 
     if (next_animation) break;
@@ -412,11 +433,19 @@ int main() {
   DDRB = ALL_INPUT;
   PORTB = ALL_POS_PULL_ON;
 
+
+  GIMSK |=  _BV(PCIE0) | _BV(PCIE1);
+  PCMSK1 |= _BV(PCINT10);
+  PCMSK0 |= _BV(PCINT6);
+
   // set prescaler to 1024
   TCCR1B = _BV(CS12) | _BV(CS10);
+
+  sei();
   
   while (1) {
     for (uint8_t n = 0; n < NUM_ANIMATIONS; n++) {
+      _delay_ms(1000);
       next_animation = 0;
       uint16_t frame_count = pgm_read_dword(&ANIMATIONS[n]->num_frames);
       while (1) {
