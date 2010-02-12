@@ -1,3 +1,6 @@
+# Copyright (c) 2010, Nikolas Coukouma. All rights reserved.
+# Distributed under the terms of a BSD-style license. See COPYING for details.
+
 # this script generates the lookup table that maps between lightness
 # and luminance
 

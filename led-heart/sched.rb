@@ -1,3 +1,6 @@
+# Copyright (c) 2010, Nikolas Coukouma. All rights reserved.
+# Distributed under the terms of a BSD-style license. See COPYING for details.
+
 # 3 bits
 # length of 7
 # bit schedule: 2120212
