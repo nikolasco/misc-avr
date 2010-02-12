@@ -1,6 +1,6 @@
 SOURCE_FILES	= heart.h general-avr.h
 SOURCE_FILES	+= dimming.h
-SOURCE_FILES	+= pulse-all.c
+SOURCE_FILES	+= animate-fade.c
 
 TARGET_ARCH	= attiny44 # for GCC
 CLOCK_SPEED	= 8000000UL # 8MHz
@@ -13,7 +13,7 @@ PROGRAMMER_PORT	= usb
 OUT_BASE_NAME	= main
 
 CC		= avr-gcc
-CFLAGS		= -Os -g -Wall -I. -std=gnu99 -mmcu=$(TARGET_ARCH) -DF_CPU=$(CLOCK_SPEED)
+CFLAGS		= -Os -g -Wall -I. -lm -std=gnu99 -mmcu=$(TARGET_ARCH) -DF_CPU=$(CLOCK_SPEED)
 
 AVRDUDE		= avrdude
 AVRDUDE_BASE_CMD = $(AVRDUDE) -c $(PROGRAMMER) -P $(PROGRAMMER_PORT) \
