@@ -1,24 +1,26 @@
-Copyright (c) 2010, Nikolas Coukouma. All rights reserved.
-Distributed under the terms of a BSD-style license. See COPYING for details.
-
 This directory contains all the source files for my "single board LED heart".
 
 It includes the electrical and PCB designs:
-  heart.brd       physical PCB design (CadSoft EAGLE)
-  heart.sch       electrical schematic (CadSoft EAGLE)
+  hardware/
+    heart.brd       physical PCB design (CadSoft EAGLE)
+    heart.sch       electrical schematic (CadSoft EAGLE)
 
 General C header files:
-  dimming.h       code for dimming LEDs, not specific to this project
-  general-avr.h   AVR utilities, not specific to this project
-  heart.h         mapping hardware to symbolic names and functions
+  firmware/
+    dimming.h       code for dimming LEDs, not specific to this project
+    general-avr.h   AVR utilities, not specific to this project
+    heart.h         mapping hardware to symbolic names and functions
 
 A variety of programs:
-  animate-basic.c simple on/off animations
-  animate-fade.c  animations with fading transitions
-  pulse-all.c     fade all of the LEDs on and then face them off, repeat indefinitely
-  shine-all.c     simply turn on all of the LEDs
+  firmware/
+    animate-basic.c simple on/off animations
+    animate-fade.c  animations with fading transitions
+    pulse-all.c     fade all of the LEDs on and then face them off, repeat indefinitely
+    shine-all.c     simply turn on all of the LEDs
 
 Some auxiallry scripts:
-  gen-table.rb    generate lookup table mapping lightness to luminance
-  Makefile        build and install the firmware (simply run 'make')
-  sched.rb        generate the bit schedule for dimmed LEDs
+  firmware/
+    Makefile        build and install the firmware (simply run 'make')
+  firmware/scripts/
+    gen-table.rb    generate lookup table mapping lightness to luminance
+    sched.rb        generate the bit schedule for dimmed LEDs
