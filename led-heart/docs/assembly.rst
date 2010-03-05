@@ -122,7 +122,7 @@ Assembling the kit
 
     .. note::
 
-       The chip has a small divet in it. This should face the notch in the
+       The chip has a small divot in it. This should face the notch in the
        socket. When looking at the top of the board, with the tip of the
        heart towards you, the text on the chip should be right-side up and
        read left to right
