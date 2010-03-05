@@ -5,6 +5,16 @@ It includes the electrical and PCB designs:
     heart.brd       physical PCB design (CadSoft EAGLE)
     heart.sch       electrical schematic (CadSoft EAGLE)
 
+Documentation (parts, assembling, usage):
+  docs/
+    build-dl.sh     build HTML and PDF manuals, resize photos
+    conf.py         Sphinx config file
+    index.rst       central file, listing files for subsections
+    licensing.rst   information about the license of the manual and sources
+    parts.rst       list of parts
+    photos/         what it says on the tin
+    using.rst       directions for operating the heart
+
 General C header files:
   firmware/
     dimming.h       code for dimming LEDs, not specific to this project
